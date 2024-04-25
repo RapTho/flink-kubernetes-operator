@@ -92,3 +92,5 @@ spec:
         - name: cm-sql
           configMap: 
             name: cm-sql
+        - name: flink-logs
+          emptyDir: {}
