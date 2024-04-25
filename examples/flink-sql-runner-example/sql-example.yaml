@@ -81,7 +81,7 @@ spec:
           volumeMounts:
             - mountPath: /opt/flink/log
               name: flink-logs
-            - mountPath: /opt/flink/usrlib/sql-scripts/simple.sql
+            - mountPath: /opt/flink/usrlib/sql-scripts/
               name: cm-sql
       volumes:
         - emptyDir: {}
