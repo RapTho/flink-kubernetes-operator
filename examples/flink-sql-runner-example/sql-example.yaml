@@ -45,7 +45,7 @@ spec:
   job:
     allowNonRestoredState: true
     args:
-      - /opt/flink/usrlib/sql-scripts/new-emea-orders.sql
+      - /opt/flink/usrlib/sql-scripts/simple.sql
     jarURI: 'local:///opt/flink/usrlib/sql-runner.jar'
     parallelism: 1
     state: running
