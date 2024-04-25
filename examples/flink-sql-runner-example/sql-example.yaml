@@ -88,7 +88,7 @@ spec:
       volumes:
         - name: state
           persistentVolumeClaim: 
-          claimName: flink-volume
+            claimName: flink-volume
         - name: cm-sql
           configMap: 
             name: cm-sql
