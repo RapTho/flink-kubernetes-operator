@@ -20,7 +20,7 @@ apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
   name: filtered-emea-orders2
-  namespace: event-automation
+  namespace: flink-gitops
 spec:
   mode: native
   taskManager:
