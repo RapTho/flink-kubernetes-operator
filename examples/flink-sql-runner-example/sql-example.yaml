@@ -81,6 +81,11 @@ spec:
           volumeMounts:
             - mountPath: /opt/flink/log
               name: flink-logs
+            - mountPath: /opt/flink/test
+              name: test-cm
       volumes:
         - emptyDir: {}
           name: flink-logs
+        - name: test-cm
+          configMap: 
+            name: test-cm
