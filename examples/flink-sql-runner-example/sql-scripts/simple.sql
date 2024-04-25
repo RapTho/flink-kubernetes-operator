@@ -9,7 +9,7 @@
 --  *) Before you deploy this SQL, update the Kafka connector properties and values
 --     with the required configuration for the target environment.
 -- -------------------------------------------
-CREATE TABLE `New Oeders`
+CREATE TABLE `New Orders`
 (
     `id`                           STRING,
     `customer`                     STRING,
@@ -45,7 +45,7 @@ MIIFLTCCAxWgAwIBAgIUIumdfWgU1pcOFp23wHeo4TkUr4owDQYJKoZIhvcNAQENBQAwLTETMBEGA1UE
 );
 
 CREATE TEMPORARY VIEW `EMEA Orders` AS
-SELECT * FROM `New Oeders`
+SELECT * FROM `New Orders`
 WHERE `region` LIKE 'EMEA';
 
 CREATE TABLE `Publish EMEA Orders`
