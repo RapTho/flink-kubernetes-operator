@@ -84,8 +84,8 @@ spec:
             - mountPath: /opt/flink/usrlib/sql-scripts/
               name: cm-sql
       volumes:
-        - emptyDir: {}
-          name: flink-logs
+        - persistentVolumeClaim: 
+          claimName: flink-volume
         - name: cm-sql
           configMap: 
             name: cm-sql
