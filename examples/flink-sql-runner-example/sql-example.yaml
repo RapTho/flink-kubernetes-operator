@@ -48,7 +48,7 @@ spec:
       - /opt/flink/usrlib/sql-scripts/simple.sql
     jarURI: 'local:///opt/flink/usrlib/sql-runner.jar'
     parallelism: 1
-    state: suspended
+    state: running
     upgradeMode: savepoint
   podTemplate:
     apiVersion: v1
