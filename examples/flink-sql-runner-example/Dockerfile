@@ -16,7 +16,7 @@
 # limitations under the License.
 ################################################################################
 
-FROM flink:1.16
+FROM icr.io/cpopen/ibm-eventautomation-flink/ibm-eventautomation-flink:1.1.5
 
 RUN mkdir /opt/flink/usrlib
 ADD target/flink-sql-runner-example-*.jar /opt/flink/usrlib/sql-runner.jar

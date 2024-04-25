@@ -19,23 +19,68 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
-  name: sql-example
+  name: filtered-emea-orders2
+  namespace: event-automation
 spec:
-  image: flink-sql-runner-example:latest
-  flinkVersion: v1_16
-  flinkConfiguration:
-    taskmanager.numberOfTaskSlots: "1"
-  serviceAccount: flink
-  jobManager:
-    resource:
-      memory: "2048m"
-      cpu: 1
+  mode: native
   taskManager:
     resource:
-      memory: "2048m"
-      cpu: 1
+      cpu: 2
+      memory: 4096m
+  jobManager:
+    replicas: 1
+    resource:
+      cpu: 0.5
+      memory: 4096m
+  flinkConfiguration:
+    license.accept: 'true'
+    license.license: L-HRZF-DWHH7A
+    license.use: EventAutomationProduction
+    state.checkpoints.dir: 'file:///opt/flink/volume/flink-cp'
+    state.checkpoints.num-retained: '3'
+    state.savepoints.dir: 'file:///opt/flink/volume/flink-sp'
+  serviceAccount: flink
+  flinkVersion: v1_18
+  image: 'quay.io/raphael_tholl/filtered-emea-orders:1.0'
   job:
-    jarURI: local:///opt/flink/usrlib/sql-runner.jar
-    args: ["/opt/flink/usrlib/sql-scripts/simple.sql"]
+    allowNonRestoredState: true
+    args:
+      - /opt/flink/usrlib/sql-scripts/new-emea-orders.sql
+    jarURI: 'local:///opt/flink/usrlib/sql-runner.jar'
     parallelism: 1
-    upgradeMode: stateless
+    state: running
+    upgradeMode: savepoint
+  podTemplate:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: pod-template
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: type
+                      operator: In
+                      values:
+                        - flink-native-kubernetes
+                topologyKey: kubernetes.io/hostname
+              weight: 80
+      containers:
+        - name: flink-main-container
+          volumeMounts:
+            - mountPath: /opt/flink/log
+              name: flink-logs
+      volumes:
+        - emptyDir: {}
+          name: flink-logs
